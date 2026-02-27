@@ -1,96 +1,91 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main{
- static  class Student{
-   private int StudentID;
-   private String StudentName;
-   private int TotalClasses;
-   private int AttendedClasses;
-   public Student (String name , int ID){
-     this.StudentName = name;
-     this.StudentID = ID;
-     this.TotalClasses=0;
-     this.AttendedClasses=0;
+class Student {
+  private int StudentID;
+  private String StudentName;
+  private int TotalClasses;
+  private int AttendedClasses;
 
-   }
-
-  public void TakeAttendance(boolean isHere){
-   TotalClasses++;
-           if(isHere){
-             AttendedClasses++;
-    }
-
+  public Student(String name, int ID) {
+    this.StudentName = name;
+    this.StudentID = ID;
+    this.TotalClasses = 0;
+    this.AttendedClasses = 0;
   }
-  public double AttendancePercentage(){
-     if (TotalClasses==0){
-       return 0;
-     }
-     return (AttendedClasses*100.0)/TotalClasses;
 
+  public void TakeAttendance(boolean isHere) {
+    TotalClasses++;
+    if (isHere) {
+      AttendedClasses++;
+    }
+  }
 
-   }
-   public void Display(){
-     System.out.println("Name: "+ StudentName);
-     System.out.println("ID: "+ StudentID);
-     System.out.println("Attended: "+AttendedClasses + "/"+TotalClasses);
-     System.out.printf("Percentage: %.2f%%\n", AttendancePercentage());
+  public double AttendancePercentage() {
+    if (TotalClasses == 0) {
+      return 0;
+    }
+    return (AttendedClasses * 100.0) / TotalClasses;
+  }
 
+  public void Display() {
+    System.out.println("Name: " + StudentName);
+    System.out.println("ID: " + StudentID);
+    System.out.println("Attended: " + AttendedClasses + "/" + TotalClasses);
+    System.out.printf("Percentage: %.2f%%\n", AttendancePercentage());
+    System.out.println("----------------------");
+  }
 
-   }
-   public int getStudentId() {
-     return StudentID;
-   }
- }
+  public int getStudentId() {
+    return StudentID;
+  }
+}
 
+class Course {
+  private String course;
+  private ArrayList<Student> students;
 
- static class Course{
-   private String course;
-   private ArrayList<Student> students;
+  public Course(String course) {
+    this.course = course;
+    students = new ArrayList<>();
+  }
 
-   public Course (String course){
-     this.course = course;
-     students = new ArrayList<>();
-   }
-   public void AddStudent(Student student){
-     students.add(student);
-     System.out.println("Student added Successfully");
+  public void AddStudent(Student student) {
+    students.add(student);
+    System.out.println("Student added successfully.");
+  }
 
-   }
-   public Student findStudent(int ID){
-     for(int i =0 ; i<students.size();++i){
-       if (students.get(i).getStudentId() == ID) {
-          return students.get(i);
+  public Student findStudent(int ID) {
+    for (Student s : students) {
+      if (s.getStudentId() == ID) {
+        return s;
+      }
+    }
+    return null;
+  }
 
-       }
+  public void markAttendance(int id, boolean isPresent) {
+    Student s = findStudent(id);
+    if (s != null) {
+      s.TakeAttendance(isPresent);
+      System.out.println("Attendance marked.");
+    } else {
+      System.out.println("Student not found.");
+    }
+  }
 
-     }
-     return null;
-   }
-   public void markAttendance(int id, boolean isPresent) {
-     Student s = findStudent(id);
-     if (s != null) {
-       s.TakeAttendance(isPresent);
-       System.out.println("Attendance marked.");
-     } else {
-       System.out.println("Student not found.");
-     }
-   }
-   public void displayAllStudents() {
-     if (students.isEmpty()) {
-       System.out.println("No students available.");
-     } else {
-       for (Student s : students) {
-         s.Display();
-       }
-     }
-   }
+  public void displayAllStudents() {
+    if (students.isEmpty()) {
+      System.out.println("No students available.");
+    } else {
+      for (Student s : students) {
+        s.Display();
+      }
+    }
+  }
+}
 
- }
-
-
-
-
+public class Main {
   public static void main(String[] args) {
 
     Scanner input = new Scanner(System.in);
